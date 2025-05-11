@@ -1,0 +1,279 @@
+==========================================
+SkillSync 2.0 Master Plan (Full Guide)
+==========================================
+
+🛠️ Full File Structure
+-----------------------
+
+SkillSync-Project/
+├── backend/
+│   ├── server.js
+│   ├── controllers/
+│   │   ├── userController.js
+│   │   ├── resumeController.js
+│   │   └── jobController.js
+│   ├── routes/
+│   │   ├── userRoutes.js
+│   │   ├── resumeRoutes.js
+│   │   └── jobRoutes.js
+│   ├── models/
+│   │   ├── User.js
+│   │   ├── Resume.js
+│   │   └── Job.js
+│   ├── services/
+│   │   ├── resumeParser.js  (parse resumes)
+│   │   └── matchingEngine.js (AI job matching)
+│   ├── uploads/   (store uploaded resumes)
+│   └── config/
+│       └── db.js
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── ResumePreview.jsx
+│   │   │   ├── JobList.jsx
+│   │   │   └── MatchScore.jsx
+│   │   ├── pages/
+│   │   │   ├── UploadResume.jsx
+│   │   │   └── Dashboard.jsx
+│   │   ├── api/
+│   │   │   ├── resumeApi.js
+│   │   │   └── jobApi.js
+│   │   └── App.jsx
+│   └── package.json
+├── extension/
+│   ├── manifest.json
+│   ├── content.js
+│   ├── popup.html
+│   ├── popup.js
+│   └── style.css
+├── README.md
+└── package.json
+
+
+✅ Tech Checklist
+----------------------
+
+Frontend:
+- React.js (basic app)
+- Tailwind CSS or Bootstrap (styling)
+- Axios (for API calls)
+
+Backend:
+- Node.js + Express (server)
+- Multer (for file uploads)
+- Natural Language Processing (simple parsing)
+- `natural` (Node NLP library)
+- MongoDB (store users, resumes, jobs)
+
+AI Stuff:
+- Resume parsing = extract name, skills, education, etc.
+- Job parsing = extract job title, skills required
+- Cosine Similarity = match score calculation (easy algorithm)
+
+Chrome Extension:
+- manifest.json (setup permissions)
+- content.js (scrape job page text)
+- popup.js (show match score)
+
+Hosting:
+- Local first, later use Render / Vercel
+
+
+🗓️ Mini 20-Day Roadmap
+--------------------------
+
+**Days 1-3:**
+- Set up Backend (Express Server)
+- Set up MongoDB models for User, Resume, Job
+
+**Days 4-6:**
+- Implement file upload (resume upload)
+- Save resumes to /uploads folder + MongoDB
+
+**Days 7-10:**
+- Build resumeParser.js to extract basic info (name, skills)
+- Build jobParser.js (later parse job descriptions)
+
+**Days 11-13:**
+- Create matchingEngine.js (use simple cosine similarity)
+- Create `/match` API endpoint (accept resume + job IDs)
+
+**Days 14-15:**
+- Set up React frontend
+- Upload Resume page + preview uploaded file (mini iframe or simple text preview)
+
+**Days 16-17:**
+- Show matching job list in Dashboard
+- Display Match Score next to each job
+
+**Days 18-20:**
+- Build Chrome Extension (popup + content script)
+- Fetch job description from page and send it to API
+- Show match score inside the popup
+
+
+💡 Clarifications You Asked:
+-----------------------------
+
+**Q: How to parse resumes?**
+- Start simple: if PDF or text, extract basic data (skills, education, experience).
+- Use `pdf-parse` for PDFs or just read text uploads.
+- Then run simple keyword matching for skills.
+
+**Q: How to show mini preview of resume?**
+- When a user uploads a file, display:
+  - Either file name + download button
+  - Or use `<iframe src={fileUrl} />` if you want to preview PDF inside the page.
+
+**Q: Where to store resumes?**
+- Save file to `/backend/uploads/` folder.
+- Save file path in MongoDB under user's Resume model.
+
+Example MongoDB Resume schema:
+```javascript
+const ResumeSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  filename: String,
+  filepath: String,
+  extractedSkills: [String],
+  createdAt: { type: Date, default: Date.now }
+});
+```
+
+
+⚡ Summary:
+-------------
+You are about to turn a basic user manager into a **full AI-powered SkillSync platform** with resume parsing, job matching, Chrome extension, and full user experience.
+
+YOU ARE READY! 🔥 Let's GO! 🚀
+
+---
+
+If you need templates for the code files next, just ask!
+I'll send starter templates for backend, resume parser, and Chrome extension if you want!
+
+
+
+# 📂 SkillSync 2.0 (Django Version)
+
+---
+
+## 🔢 File Structure
+```
+SkillSync-Project/
+├── backend/
+│   ├── manage.py
+│   ├── SkillSyncBackend/
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
+│   ├── resumes/
+│   │   ├── models.py
+│   │   ├── views.py
+│   │   ├── serializers.py
+│   │   ├── urls.py
+│   │   └── resume_parser.py
+│   ├── jobs/
+│   │   ├── models.py
+│   │   ├── views.py
+│   │   ├── serializers.py
+│   │   ├── urls.py
+│   │   └── matching_engine.py
+│   ├── users/
+│   │   ├── models.py (if custom User)
+│   │   └── views.py
+│   └── media/ (Uploaded resumes go here)
+├── frontend/
+│   └── (React app)
+├── extension/
+│   └── (Chrome extension)
+└── README.md
+```
+
+---
+
+## ✅ Django Tech Stack
+
+- Django 5.x
+- Django REST Framework (DRF)
+- djangorestframework-simplejwt (JWT auth)
+- pdfminer.six / pdfplumber (for PDF parsing)
+- scikit-learn (cosine similarity matching)
+- PostgreSQL or SQLite
+
+---
+
+## 🗓️ Updated 20-Day Roadmap
+
+**Days 1-3:**
+- Start Django project `SkillSyncBackend`
+- Create apps: resumes, jobs, users
+
+**Days 4-6:**
+- Setup JWT Authentication
+- Setup Resume upload API (FileField)
+
+**Days 7-10:**
+- Build `resume_parser.py`
+- Extract skills, education from uploaded PDFs
+
+**Days 11-13:**
+- Create Job upload model
+- Build `matching_engine.py`
+
+**Days 14-15:**
+- API endpoint to match Resume ➔ Jobs
+
+**Days 16-17:**
+- Frontend (React): Resume upload and preview
+
+**Days 18-20:**
+- Chrome Extension:
+  - Scrape job description
+  - Send to Match API
+  - Show match results
+
+---
+
+## 💬 Details
+
+**Resume Parsing**
+- User uploads PDF
+- Django saves it in `/media/`
+- `pdfminer` / `pdfplumber` reads the file
+- Extract skills, education using regex/keywords
+- Save parsed data to the database
+
+**Mini Resume Preview**
+- Get resume URL after upload
+- In React, render using:
+```jsx
+<iframe src={uploaded_resume_url} />
+```
+
+**Storing Resumes**
+- `MEDIA_ROOT = /backend/media/`
+- `MEDIA_URL = /media/`
+- Use Django's static/media file settings
+
+Example Resume model:
+```python
+class Resume(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='resumes/')
+    extracted_skills = models.JSONField(default=list)
+    created_at = models.DateTimeField(auto_now_add=True)
+```
+
+---
+
+## 🚀 Summary
+- Django = faster, safer, startup-level project
+- Easy user management, authentication, file handling
+- Can expand into a real SaaS product
+
+---
+
+**Ready to Build SkillSync 2.0 with Django!** 🚀🌟
+
