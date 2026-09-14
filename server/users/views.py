@@ -26,8 +26,8 @@ class CreateUserAPI(GenericAPIView):
             user = serializer.save()
             token = RefreshToken.for_user(user)
             response = Response(serializer.data, status=status.HTTP_201_CREATED)
-            response.set_cookie(key='refresh_token', value=str(token), max_age=1800, samesite='Lax', httponly=True, secure=False)
-            response.set_cookie(key='access_token', value=str(token.access_token), max_age=1800, samesite='Lax', httponly=True, secure=False)
+            response.set_cookie(key='refresh_token', value=str(token), max_age=1800, path='/', samesite='Lax', httponly=True, secure=False)
+            response.set_cookie(key='access_token', value=str(token.access_token), max_age=1800, path='/', samesite='Lax', httponly=True, secure=False)
             return response
         return Response(serializer.errors)
 
@@ -48,8 +48,8 @@ class LoginUserAPI(GenericAPIView):
         if user:
             token = RefreshToken.for_user(user)
             response = Response(serializer.data, status=status.HTTP_201_CREATED)
-            response.set_cookie(key='refresh_token', value=str(token), max_age=1800, samesite='Lax', httponly=True, secure=False)
-            response.set_cookie(key='access_token', value=str(token.access_token), max_age=1800, samesite='Lax', httponly=True, secure=False)
+            response.set_cookie(key='refresh_token', value=str(token), max_age=1800, path='/', samesite='Lax', httponly=True, secure=False)
+            response.set_cookie(key='access_token', value=str(token.access_token), max_age=1800, path='/', samesite='Lax', httponly=True, secure=False)
             return response
         return Response({'error': 'Credentials Invalid'})
     
@@ -69,8 +69,8 @@ class RefreshTokenAPI(GenericAPIView):
         if token:
             token = RefreshToken(token)
             response = Response(serializer.data, status=status.HTTP_201_CREATED)
-            response.set_cookie(key='refresh_token', value=str(token), max_age=1800, samesite='Lax', httponly=True, secure=False)
-            response.set_cookie(key='access_token', value=str(token.access_token), max_age=1800, samesite='Lax', httponly=True, secure=False)
+            response.set_cookie(key='refresh_token', value=str(token), max_age=1800, path='/', samesite='Lax', httponly=True, secure=False)
+            response.set_cookie(key='access_token', value=str(token.access_token), max_age=1800, path='/', samesite='Lax', httponly=True, secure=False)
             return response
         return Response({'error': 'Auth token not provided'}, status=status.HTTP_400_BAD_REQUEST)
     

@@ -46,8 +46,9 @@ INSTALLED_APPS = [
     'resume.apps.ResumeConfig'
 ]
 
-CORS_ALLOWED_ORIGINS=[
-
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8020',
+    'http://127.0.0.1:8020',
 ]
 
 CORS_ALLOW_CREDENTIALS=True
